@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  redis_container:
+    container_name: bullmq-redis
+    image: redis:7.0.2
+    ports:
+      - 6379:6379
+    volumes:
+      - ./docker/redis:/data

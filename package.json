@@ -1,0 +1,29 @@
+{
+  "name": "bull-mq",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "concurrently \"npm run watch-compile\" \"npm run watch-dev\"",
+    "watch-compile": "swc src -w --out-dir dist",
+    "watch-dev": "nodemon --watch \"dist/**/*\" -e js ./dist"
+  },
+  "prettier": {
+    "semi": false
+  },
+  "devDependencies": {
+    "@swc/cli": "^0.1.57",
+    "@swc/core": "^1.2.208",
+    "@types/bull": "^3.15.8",
+    "@types/express": "^4.17.13",
+    "concurrently": "^7.2.2",
+    "nodemon": "^2.0.18",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "@bull-board/express": "^4.0.0",
+    "@bull-board/ui": "^4.0.0",
+    "bullmq": "^1.86.4",
+    "express": "^4.18.1"
+  }
+}
