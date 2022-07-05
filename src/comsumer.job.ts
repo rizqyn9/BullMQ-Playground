@@ -1,9 +1,9 @@
-import { Worker } from "bullmq"
+import { Worker, Job } from "bullmq"
 import { connection } from "./config"
 
 const init = new Worker(
   "test",
-  async (job) => {
+  async (job: Job) => {
     console.log({ consumer: job })
     return "testNih"
   },

@@ -1,0 +1,34 @@
+@startuml Offering
+
+skinparam activity {
+    BackgroundColor red
+    BackgroundColor << Cache >> Orange
+}
+
+partition Offering {
+    (*) --> "New Order Created" as a1
+    a1 --> OrderQueue
+    "OrderQueue" << Cache >> --> OnAdded
+    OnAdded --> NotifyTalent
+    OnAdded --> DelayedQueue
+    if "Timeout" then
+        -->[true] "Notify" as a2
+            a2 --> Talent Order not valid
+            a2 --> User Order was canceled
+
+    else 
+        if "Order Accecpted" then
+        -->[true] "Notify" as a3
+            a3 --> "Create Invoice"
+            a3 --> "User order success"
+        else 
+        -->[false] "Notify" as a4
+            a4 --> "User order cancel"
+        endif
+    endif
+        
+
+
+}
+
+@enduml

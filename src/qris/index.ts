@@ -13,19 +13,22 @@ const offeringWorker = new Worker(
     // console.log({ offeringWorker: job })
     // console.log({ name: job.name })
 
-    // await delay(5_000)
+    await delay(5_000)
     return Promise.resolve("Success")
     // throw new Error("asdasd")
   },
   { connection }
 )
 
+/* ------------------------------ Worker Event ------------------------------ */
+
 offeringWorker.on("completed", async (job, res) => {
   console.log({ completedWorker: { job, res } })
 
+  // remove Order
   await offeringQueue.removeRepeatableByKey(job.repeatJobKey!).then(
     (res) => {
-      if (res) console.log("Success")
+      if (res) console.log(`Remove ${job.repeatJobKey}`)
     },
     (rej) => console.log(rej)
   )
@@ -55,7 +58,7 @@ const addOrder = async (arg: OrderProps) => {
     { ...arg },
     {
       repeat: {
-        every: 2000,
+        every: 20000,
         limit: 2,
       },
     }
