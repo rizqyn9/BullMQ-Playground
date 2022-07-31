@@ -89,8 +89,38 @@ const createInvoice = async ({ orderCacheId }: { orderCacheId: string }) => {
   return invoiceJobId
 }
 
+type TTest = {
+  test: number
+}
+
+export const woker = new Worker(
+  "order",
+  async (job: Job<TTest>) => {
+    await job.update({ test: job.data.test + 1 })
+
+    console.log(job.data)
+    return Promise.reject()
+  },
+  { connection, skipDelayCheck: false }
+)
+
 export const test = async () => {
-  const flowOrder = await createOrder()
+  const a: Job<TTest> = await orderCache.add(
+    "tesc1",
+    { test: 1 },
+    {
+      attempts: 5,
+      backoff: {
+        delay: 2_000,
+        type: "fixed",
+      },
+      // removeOnFail: true,
+    }
+  )
+
+  // setTimeout(async () => {
+  //   console.log(await orderCache.getRepeatableJobs())
+  // }, 2_000)
 }
 
 export { createInvoice }
